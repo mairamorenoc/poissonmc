@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Clusters MC - RJ</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 2000px;
+			width: 2000px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+        
+/*Legend specific*/
+        
+  .legend {
+  padding: 6px 8px;
+  font: 14px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  line-height: 24px;
+  color: #555;
+}
+.legend h4 {
+  text-align: center;
+  font-size: 14px;
+  margin: 2px 12px 8px;
+  color: #525252;
+}
+
+.legend span {
+  position: relative;
+  bottom: 3px;
+}
+
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin: 0 8px 0 0;
+  opacity: 0.7;
+}
+
+.legend i.icon {
+  background-size: 18px;
+  background-color: rgba(255, 255, 255, 1);
+}
+	</style>
+
+	
+</head>
+<body>
+
+<div id='map'></div>
+
+<script>
+	var clusters = L.layerGroup();
+
+	var cluster1 = L.circle([-22.632490, -43.299610], 19270, {stroke: false, color: 'red'}).bindPopup('Cluster 1: RR= 3.40, P-value= 0.0000000018').addTo(clusters);
+	var cluster2 = L.circle([-22.195950, -41.650900], 149590, {stroke: false, color: 'red'}).bindPopup('Cluster 2: RR= 2.04, P-value: 0.011').addTo(clusters);
+	var cluster3 = L.circle([-22.954230, -44.038080], 54930, {stroke: false, color: 'blue'}).bindPopup('Cluster 3: RR= 2.12, P-value: 0.415').addTo(clusters);
+
+	var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+	var mbUrl = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw';
+ 
+	var streets = L.tileLayer(mbUrl, {id: 'mapbox/streets-v11', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+
+	var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> | Dados obtidos do Sistema de Informação sobre Nascidos Vivos (SINASC) - DATASUS, Secretaria de Vigilância Sanitária do Brasil, e processados pelo software SatScan™ v10.0.1'
+	});
+
+	var map = L.map('map', {
+		center: [-22.9, -43.2],
+		zoom: 7,
+		layers: [osm, clusters]
+	});
+
+	var baseLayers = {
+		'OpenStreetMap': osm,
+		'Streets': streets
+	};
+
+	var overlays = {
+		'Clusters': clusters
+	};
+
+	var layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+	
+    /*Cluster 1*/
+    var cl1loc1 = L.circleMarker([-22.63249, -43.29961],{radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Duque de Caxias');
+    var cl1loc2 = L.circleMarker([-22.72873, -43.37757],{radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Belford Roxo');
+    var cl1loc3 = L.circleMarker([-22.61262, -43.11302],{radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Magé');
+    var cl1loc4 = L.circleMarker([-22.78515, -43.3653],{radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São João de Meriti');
+	
+    /*Cluster 2*/
+    var cl2loc1 = L.circleMarker([-21.65229, -42.13467], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Aperibé');
+    var cl2loc2 = L.circleMarker([-22.75538, -42.29294], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Araruama');
+    var cl2loc3 = L.circleMarker([-22.77621, -41.94955], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Armação dos Búzios');
+    var cl2loc4 = L.circleMarker([-22.925, -42.16001], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Arraial do Cabo');
+    var cl2loc5 = L.circleMarker([-22.19975, -42.37173], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Bom Jardim');
+    var cl2loc6 = L.circleMarker([-21.12346, -41.6832], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Bom Jesus do Itabapoana');
+    var cl2loc7 = L.circleMarker([-22.71178, -42.05701], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Cabo Frio');
+    var cl2loc8 = L.circleMarker([-22.51612, -42.72841], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Cachoeiras de Macacu');
+    var cl2loc9 = L.circleMarker([-21.49692, -41.91465], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Cambuci');
+    var cl2loc10 = L.circleMarker([-22.19595, -41.6509], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Carapebus');
+    var cl2loc11 = L.circleMarker([-21.74766, -41.40409], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Campos dos Goytacazes');
+    var cl2loc12 = L.circleMarker([-21.86835, -42.33389], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Cantagalo');
+    var cl2loc13 = L.circleMarker([-21.52545, -41.5003], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Cardoso Moreira');
+    var cl2loc14 = L.circleMarker([-21.89542, -42.56641], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Carmo');
+    var cl2loc15 = L.circleMarker([-22.48186, -42.14424], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Casimiro de Abreu');
+    var cl2loc16 = L.circleMarker([-22.13661, -41.84658], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Conceição de Macabu');
+    var cl2loc17 = L.circleMarker([-22.0588, -42.34222], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Cordeiro');
+    var cl2loc18 = L.circleMarker([-22.05561, -42.49804], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Duas Barras');
+    var cl2loc19 = L.circleMarker([-22.5835, -42.96402], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Guapimirim');
+    var cl2loc20 = L.circleMarker([-22.82748, -42.21801], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Iguaba Grande');
+    var cl2loc21 = L.circleMarker([-22.75002, -42.85436], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Itaboraí');
+    var cl2loc22 = L.circleMarker([-21.42391, -41.65383], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Italva');
+    var cl2loc23 = L.circleMarker([-21.72689, -42.08224], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Itaocara');
+    var cl2loc24 = L.circleMarker([-21.2251, -41.89402], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Itaperuna');
+    var cl2loc25 = L.circleMarker([-21.2501, -42.13512], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Laje do Muriaé');
+    var cl2loc26 = L.circleMarker([-22.29581, -41.97665], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Macaé');
+    var cl2loc27 = L.circleMarker([-22.024, -42.27353], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Macuco');
+    var cl2loc28 = L.circleMarker([-22.91532, -42.81698], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Maricá');
+    var cl2loc29 = L.circleMarker([-21.39558, -42.1522], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Miracema');
+    var cl2loc30 = L.circleMarker([-21.04165, -41.93126], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Natividade');
+    var cl2loc31 = L.circleMarker([-22.31912, -42.50103], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Nova Friburgo');
+    var cl2loc32 = L.circleMarker([-20.90656, -41.96958], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Porciúncula');
+    var cl2loc33 = L.circleMarker([-22.1048, -41.4444], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Quissamã');
+    var cl2loc34 = L.circleMarker([-22.73502, -42.58807], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Rio Bonito');
+    var cl2loc35 = L.circleMarker([-22.45424, -41.94648], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Rio das Ostras');
+    var cl2loc36 = L.circleMarker([-21.96963, -41.91348], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Santa Maria Madalena');
+    var cl2loc37 = L.circleMarker([-21.55562, -42.19288], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Santo Antônio de Pádua');
+    var cl2loc38 = L.circleMarker([-21.41761, -41.13517], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São Francisco de Itabapoana');
+    var cl2loc39 = L.circleMarker([-21.6599, -41.78698], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São Fidélis');
+    var cl2loc40 = L.circleMarker([-21.78219, -41.0808], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São João da Barra');
+    var cl2loc41 = L.circleMarker([-21.37082, -41.94926], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São José de Ubá');
+    var cl2loc42 = L.circleMarker([-22.16973, -42.93252], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São José do Vale do Rio Preto');
+    var cl2loc43 = L.circleMarker([-22.78836, -42.12607], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São Pedro da Aldeia');
+    var cl2loc44 = L.circleMarker([-21.88336, -42.10224], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('São Sebastião do Alto');
+    var cl2loc45 = L.circleMarker([-22.02412, -42.82282], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Sapucaia');
+    var cl2loc46 = L.circleMarker([-22.87815, -42.51884], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Saquarema');
+    var cl2loc47 = L.circleMarker([-22.56758, -42.41335], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Silva Jardim');
+    var cl2loc48 = L.circleMarker([-22.10708, -42.6642], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Sumidouro');
+    var cl2loc49 = L.circleMarker([-22.78219, -42.72545], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Tanguá');
+    var cl2loc50 = L.circleMarker([-22.31407, -42.87338], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Teresópolis');
+    var cl2loc51 = L.circleMarker([-22.12975, -42.15496], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Trajano de Moraes');
+    var cl2loc52 = L.circleMarker([-22.12473, -43.11215], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Três Rios');
+    var cl2loc53 = L.circleMarker([-20.89293, -41.82971], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Varre-Sai');
+    
+    
+    /*Cluster 3*/
+    var cl3loc1 = L.circleMarker([-22.98651, -44.35282], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Angra dos Reis');
+    var cl3loc2 = L.circleMarker([-22.50578, -44.18831], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Barra Mansa');
+    var cl3loc3 = L.circleMarker([-22.83467, -43.81232], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Itaguaí');
+    var cl3loc4 = L.circleMarker([-22.66192, -43.60576], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Japeri');
+    var cl3loc5 = L.circleMarker([-22.95423, -44.03808], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Mangaratiba');
+    var cl3loc6 = L.circleMarker([-22.6179, -43.72152], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Paracambi');
+    var cl3loc7 = L.circleMarker([-22.54333, -43.99755], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Pinheiral');
+    var cl3loc8 = L.circleMarker([-22.63359, -43.90171], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Piraí');
+    var cl3loc9 = L.circleMarker([-22.72542, -43.58492], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Queimados');
+    var cl3loc10 = L.circleMarker([-22.78048, -44.07838], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Rio Claro');
+    var cl3loc11 = L.circleMarker([-22.75554, -43.69857], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Seropédica');
+    var cl3loc12 = L.circleMarker([-22.49092, -44.08893], {radius: 5, stroke: true, color: 'black', opacity: 1, weight: 1, fill: true, fillColor: 'red', fillOpacity: 0.7}).bindPopup('Volta Redonda');
+
+	
+    var locations = L.layerGroup([cl1loc1, cl1loc2, cl1loc3, cl1loc4, cl2loc1, cl2loc2, cl2loc3, cl2loc4, cl2loc5, cl2loc6, cl2loc7, cl2loc8, cl2loc9, cl2loc10, cl2loc11, cl2loc12, cl2loc13, cl2loc14, cl2loc15, cl2loc16, cl2loc17, cl2loc18, cl2loc19, cl2loc20, cl2loc21, cl2loc22, cl2loc23, cl2loc24, cl2loc25, cl2loc26, cl2loc27, cl2loc28, cl2loc29, cl2loc30, cl2loc31, cl2loc32, cl2loc33, cl2loc34, cl2loc35, cl2loc36, cl2loc37, cl2loc38, cl2loc39, cl2loc40, cl2loc41, cl2loc42, cl2loc43, cl2loc44, cl2loc45, cl2loc46, cl2loc47, cl2loc48, cl2loc49, cl2loc50, cl2loc51, cl2loc52, cl2loc53, cl3loc1, cl3loc2, cl3loc3, cl3loc4, cl3loc5, cl3loc6, cl3loc7, cl3loc8, cl3loc9, cl3loc10, cl3loc11, cl3loc12]);
+
+	var satellite = L.tileLayer(mbUrl, {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution: mbAttr});
+	layerControl.addBaseLayer(satellite, 'Satellite');
+	layerControl.addOverlay(locations, 'Localizações');
+    
+    /*Legend specific*/
+    var legend = L.control({ position: "bottomright" });
+
+    legend.onAdd = function(map) {
+    var div = L.DomUtil.create("div", "legend");
+    div.innerHTML += "<h4>Clusters detectados</h4>";
+    div.innerHTML += '<i style="background: #2171b5"></i><span>Não significativo</span><br>';
+    div.innerHTML += '<i style="background: #fb6a4a"></i><span>Significativo</span><br>';
+  
+  
+
+   return div;
+   };
+
+   legend.addTo(map);
+    
+   L.control.scale ({
+    metric: true,
+    imperial: false,
+    position: 'bottomleft'
+    }).addTo(map);
+    
+</script>
+
+
+
+</body>
+</html>
